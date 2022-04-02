@@ -38,75 +38,103 @@ class CounterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Counter')),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            BlocBuilder<CounterBloc, int>(
+    final counterLeft = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            context.read<CounterBloc>().add(CounterIncrement2Pressed());
+          },
+          child: const Text(
+            '+2',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            context.read<CounterBloc>().add(CounterIncrement1Pressed());
+          },
+          child: const Text(
+            '+1',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(),
+        ),
+      ],
+    );
+    final counterRight = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            context.read<CounterBloc>().add(CounterDecrement2Pressed());
+          },
+          child: const Text(
+            '-2',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            context.read<CounterBloc>().add(CounterDecrement1Pressed());
+          },
+          child: const Text(
+            '-1',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(),
+        ),
+      ],
+    );
+
+    var counter = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Expanded(child: counterLeft),
+          Expanded(child: Center(
+            child: BlocBuilder<CounterBloc, int>(
               builder: (context, count) {
                 return Text('$count', style: const TextStyle(fontSize: 50));
               },
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<CounterBloc>().add(CounterIncrement2Pressed());
-                  },
-                  child: const Text(
-                    '+2',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  style: ElevatedButton.styleFrom(),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<CounterBloc>().add(CounterIncrement1Pressed());
-                  },
-                  child: const Text(
-                    '+1',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  style: ElevatedButton.styleFrom(),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<CounterBloc>().add(ConuterResetPressed());
-                  },
-                  child: const Text(
-                    '0',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  style: ElevatedButton.styleFrom(),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<CounterBloc>().add(CounterDecrement1Pressed());
-                  },
-                  child: const Text(
-                    '-1',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  style: ElevatedButton.styleFrom(),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<CounterBloc>().add(CounterDecrement2Pressed());
-                  },
-                  child: const Text(
-                    '-2',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  style: ElevatedButton.styleFrom(),
-                ),
-              ],
-            )
-          ]),
+          )),
+          Expanded(child: counterRight)
+        ]),
+        ElevatedButton(
+          onPressed: () {
+            context.read<CounterBloc>().add(ConuterResetPressed());
+          },
+          child: const Text(
+            'Reset',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(primary: Colors.red),
+        ),
+      ],
+    );
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Counter')),
+      body: Center(
+          child: Card(
+        color: Colors.grey,
+        child: Container(
+          width: 180,
+          height: 180,
+          margin: const EdgeInsets.all(5),
+          child: counter,
+        ),
+      )),
     );
   }
 }
